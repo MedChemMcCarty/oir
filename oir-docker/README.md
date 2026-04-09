@@ -90,7 +90,3 @@ This Docker setup is intended to:
 * Enable easier integration into modern pipelines
 
 ---
-
-## Future Work
-
-While this setup allows the legacy code to run, a longer-term improvement would be to reimplement the model in a modern framework (e.g., PyTorch) for easier maintenance, improved performance, and simpler integration.
