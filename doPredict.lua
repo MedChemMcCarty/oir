@@ -131,10 +131,21 @@ function predict(opt)
       end
     end
     local quantifiedImageName = string.format("%s/quantified.png", opt.outputdir)
+    
     if opt.uniqueName > 0 then
       quantifiedImageName = string.format("%s/%s_quantified.png", opt.outputdir, basename)
     end
     utils.drawImage(quantifiedImageName, img2D:byte(), upPredict)
+
+    local maskFile = string.format("%s/mask.png", opt.outputdir)
+    if opt.uniqueName > 0 then
+      maskFile = string.format("%s/%s_mask.png", opt.outputdir, basename)
+    end
+    
+    local maskToSave = upPredict:clone():byte()
+    image.save(maskFile, maskToSave)
+    
+    print("Saved combined mask:", maskFile)
     if opt.thumbnailSize > 0 then
       local tbImg2D = image.scale(img2D, opt.thumbnailSize, opt.thumbnailSize)
       local tblabel = image.scale(upPredict, opt.thumbnailSize, opt.thumbnailSize, 'simple')
