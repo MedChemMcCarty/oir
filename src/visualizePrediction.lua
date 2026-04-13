@@ -118,6 +118,9 @@ for data in iter() do
     --local upPredictArea = upsamplePredictDraw:eq(opt.targetLabel):sum()
     local upPredictFile = string.format("%s_upsampled_%0.3f.png", fileNameRoot, upsampledDc)
     utils.drawImage(upPredictFile, originalRawImage[1], upsamplePredictDraw)
+    local className = (opt.targetLabel == 1) and "vo" or "nv"
+    local maskFile = string.format("%s_%s_mask.png", fileNameRoot)
+    image.save(maskFile, upsamplePredictDraw)
     
     entries[cnt] = {idx = data.idx[i], downRawFile = downRawFile, downTrueFile = downTrueFile, downPredictFile = downPredictFile, upPredictFile = upPredictFile, originalRawFile = data.rawFilePath[i], originalLabelFile = data.labelFilePath[i], dc = dice[i], upsampledDc = upsampledDc}
   end
