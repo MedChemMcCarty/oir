@@ -119,8 +119,13 @@ for data in iter() do
     local upPredictFile = string.format("%s_upsampled_%0.3f.png", fileNameRoot, upsampledDc)
     utils.drawImage(upPredictFile, originalRawImage[1], upsamplePredictDraw)
     local className = (opt.targetLabel == 1) and "vo" or "nv"
-    local maskFile = string.format("%s_%s_mask.png", fileNameRoot)
-    image.save(maskFile, upsamplePredictDraw)
+    local maskFile = string.format("%s_%s_mask.png", fileNameRoot, className)
+    
+    local maskToSave = upsamplePredictDraw:clone():byte()
+    print('saving mask to', maskFile)
+    maskToSave[maskToSave:eq(opt.targetLabel)] = 255
+    
+    image.save(maskFile, maskToSave)
     
     entries[cnt] = {idx = data.idx[i], downRawFile = downRawFile, downTrueFile = downTrueFile, downPredictFile = downPredictFile, upPredictFile = upPredictFile, originalRawFile = data.rawFilePath[i], originalLabelFile = data.labelFilePath[i], dc = dice[i], upsampledDc = upsampledDc}
   end
